@@ -23,7 +23,7 @@
                 <el-button type="primary" icon="el-icon-search" @click="handleSearch(factoryId)">搜索</el-button>
             </div>
             <el-table
-                :data="pigFacctoryInfo"
+                :data="pigHouseInfo"
                 border
                 class="table"
                 ref="multipleTable"
@@ -32,10 +32,10 @@
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-                <el-table-column prop="type" label="类型"    ></el-table-column>
-                <el-table-column prop="variety" label="品种"    ></el-table-column>
-                <el-table-column prop="factoryid" label="猪场id"    ></el-table-column>
-                <el-table-column prop="pighouseid" label="猪舍"    ></el-table-column>
+                <el-table-column prop="no" label="猪舍编号"    ></el-table-column>
+                <el-table-column prop="description" label="猪舍描述"    ></el-table-column>
+                <el-table-column prop="isdisinfection" label="是否消毒"    ></el-table-column>
+                <el-table-column prop="factoryId" label="猪场id"    ></el-table-column>
             <!--    <el-table-column label="账户余额">
                     <template slot-scope="scope">￥{{scope.row.money}}</template>
                 </el-table-column>
@@ -118,7 +118,7 @@ export default {
                 pageSize: 10
             },
             tableData: [],
-            pigFacctoryInfo: [],
+            pigHouseInfo: [],
             multipleSelection: [],
             delList: [],
             editVisible: false,
@@ -135,11 +135,11 @@ export default {
     methods: {
         // 获取 easy-mock 的模拟数据
         getData() {
-            this.$axios.get("http://localhost:8888/pig/getAllPigList", {
+            this.$axios.get("http://localhost:8888/pighouse/getAllPigHouseList", {
                 params: {}
             }).then( (response)=> {
                 //alert(response.data.data[0].variety)
-             this.pigFacctoryInfo = response.data.data;
+             this.pigHouseInfo = response.data.data;
 
             }).catch(function (error) {
             });
@@ -161,10 +161,10 @@ export default {
         },
         // 触发搜索按钮
         handleSearch(factoryId) {
-            this.$axios.get("http://localhost:8888/pig/getPigList", {
+            this.$axios.get("http://localhost:8888/pighouse/getAllPigHouseList", {
                 params: {factoryId:factoryId}
             }).then( (response)=> {
-                this.pigFacctoryInfo = response.data.data;
+                this.pigHouseInfo = response.data.data;
             }).catch(function (error) {
                 console.error(error)
             });
