@@ -34,7 +34,12 @@
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="no" label="猪舍编号"    ></el-table-column>
                 <el-table-column prop="description" label="猪舍描述"    ></el-table-column>
-                <el-table-column prop="isdisinfection" label="是否消毒"    ></el-table-column>
+                <el-table-column prop="isdisinfection" label="是否消毒"    >
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.isdisinfection == 0">是</span>
+                        <span v-if="scope.row.isdisinfection == 1">否</span>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="factoryId" label="猪场id"    ></el-table-column>
             <!--    <el-table-column label="账户余额">
                     <template slot-scope="scope">￥{{scope.row.money}}</template>
