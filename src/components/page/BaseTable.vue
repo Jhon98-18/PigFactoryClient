@@ -19,8 +19,8 @@
                     <el-option key="1" label="广东省" value="广东省"></el-option>
                     <el-option key="2" label="湖南省" value="湖南省"></el-option>
                 </el-select>-->
-                <el-input v-model="factoryId" placeholder="猪场id" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="el-icon-search" @click="handleSearch(factoryId)">搜索</el-button>
+                <el-input v-model="houseId" placeholder="猪舍id" class="handle-input mr10"></el-input>
+                <el-button type="primary" icon="el-icon-search" @click="handleSearch(houseId)">搜索</el-button>
             </div>
             <el-table
                 :data="pigHouseInfo"
@@ -76,6 +76,11 @@
                             class="red"
                             @click="handleDelete(scope.$index, scope.row)"
                         >删除</el-button>
+                        <el-button
+                                type="text"
+                                icon="el-icon-edit"
+                                @click="handleSelect(scope.$index, scope.row)"
+                        >查看</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -106,6 +111,7 @@
                 <el-button type="primary" @click="saveEdit">确 定</el-button>
             </span>
         </el-dialog>
+
     </div>
 </template>
 
@@ -131,7 +137,7 @@ export default {
             form: {},
             idx: -1,
             id: -1,
-            factoryId:''
+            houseId:''
         };
     },
     created() {
@@ -165,9 +171,9 @@ export default {
             });*/
         },
         // 触发搜索按钮
-        handleSearch(factoryId) {
-            this.$axios.get("http://localhost:8888/pighouse/getAllPigHouseList", {
-                params: {factoryId:factoryId}
+        handleSearch(houseId) {
+            this.$axios.get("http://localhost:8888/pighouse/getPigHouseList", {
+                params: {houseId:houseId}
             }).then( (response)=> {
                 this.pigHouseInfo = response.data.data;
             }).catch(function (error) {
@@ -207,6 +213,7 @@ export default {
             this.form = row;
             this.editVisible = true;
         },
+
         // 保存编辑
         saveEdit() {
             this.editVisible = false;
