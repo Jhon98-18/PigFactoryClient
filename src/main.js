@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 import ElementUI from 'element-ui';
 import VueI18n from 'vue-i18n';
-import { messages } from './components/common/i18n';
+import {messages} from './components/common/i18n';
 import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 // import './assets/css/theme-green/index.css'; // 浅绿色主题
 import './assets/css/icon.css';
@@ -32,8 +32,9 @@ const i18n = new VueI18n({
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
     //根据字段判断是否进行路由过滤（即是否需要登录才能访问）
-    if (to.matched.some(record=> record.meta.auth)) {
-        if (window.sessionStorage.token !== null) {
+    if (to.matched.some(record => record.meta.auth)) {
+        var tokens = localStorage.getItem("token");
+        if (tokens != null) {
             next()
         } else {
             //防止无限循环

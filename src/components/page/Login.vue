@@ -2,11 +2,11 @@
     <div class="login-wrap">
         <div class="ms-login">
             <div class="ms-title">猪场后台管理系统</div>
-                <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
+            <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="userName">
-<!--                    props 规则验证的字段名称-->
+                    <!--                    props 规则验证的字段名称-->
                     <el-input v-model="param.userName" placeholder="userName">
-<!--                        v-model是绑定字段的   placeholder  默认提示字-->
+                        <!--                        v-model是绑定字段的   placeholder  默认提示字-->
                         <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
                     </el-input>
                 </el-form-item>
@@ -45,22 +45,25 @@
             };
         },
         methods: {
-            submitForm() {
+            submitForm: function () {
                 this.$refs.login.validate(valid => {
                     if (valid) {
-                        this.$axios.get("http://localhost:8888/login", {
-                            params: {
-                                'userName': this.param.userName,
-                                'passWord': this.param.passWord
-                            }
+                        this.$axios.post("http://localhost:8888/auth/login", {
+                            'userName': this.param.userName,
+                            'passWord': this.param.passWord
                         }).then((response) => {
-                            this.$message.success('登录成功');
-                            localStorage.setItem('ms_username', this.param.username);
-                            this.$router.push('/table');
-                        }).catch(function (error) {
-                            alert("登录失败");
-                            console.log(error);
-                        });
+                            var token = response.headers.token;
+                            if (token == null) {
+                                this.$message.error('账号密码有误');
+                            } else {
+                                localStorage.setItem('ms_username', this.param.userName);
+                                localStorage.setItem('token', response.headers.token);
+                                this.$router.push('/table');
+                            }
+                        }, error => {
+                            this.$message.error('错误');
+                            this.$router.push('/login');
+                        })
                         // this.$axios({
                         //     headers:
                         //         {
